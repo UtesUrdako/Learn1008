@@ -4,17 +4,13 @@ using UnityEngine;
 
 public class NewBehaviourScript : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    private void OnCollisionEnter(Collision other)
     {
-        
+        Debug.Log($"{other.contacts[0].normal}");
     }
 
-    // Update is called once per frame
-    void Update()
+    private void OnCollisionExit(Collision other)
     {
-        Debug.Log("log");
-        Debug.LogWarning("warning");
-        Debug.LogError("error");
+        Debug.Log("Enter collision");
     }
 }

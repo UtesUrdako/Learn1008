@@ -9,6 +9,7 @@ public class Player : MonoBehaviour
     [SerializeField] Transform _spawnBullet;
 
     public float speed;
+    public float speedRotate;
 
     private bool _isForse;
     private bool _isFire;
@@ -21,7 +22,7 @@ public class Player : MonoBehaviour
 
     void Start()
     {
-        
+
     }
 
     void Update()
@@ -41,6 +42,8 @@ public class Player : MonoBehaviour
             Fire();
 
         Move();
+
+        transform.Rotate(0, Input.GetAxis("Mouse X") * Time.fixedDeltaTime * speedRotate, 0);
     }
 
     private void Move()
@@ -52,9 +55,10 @@ public class Player : MonoBehaviour
 
     private void Fire()
     {
+
         GameObject bullet = GameObject.Instantiate(_bulletPrefab, _spawnBullet.position, Quaternion.identity);
 
-        bullet.GetComponent<Bullet>().Init(3f);
+        bullet.GetComponent<Bullet>().Init(10f, 30f);
 
         _isFire = false;
     }
