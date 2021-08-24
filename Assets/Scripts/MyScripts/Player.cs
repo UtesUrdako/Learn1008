@@ -7,9 +7,11 @@ public class Player : MonoBehaviour
     //[SerializeField] private Animator _animator;
     [SerializeField] GameObject _bulletPrefab;
     [SerializeField] Transform _spawnBullet;
+    [SerializeField] Rigidbody _rb;
 
     public float speed;
     public float speedRotate;
+    public float jumpForce;
 
     private bool _isForse;
     private bool _isFire;
@@ -18,6 +20,7 @@ public class Player : MonoBehaviour
     private void Awake()
     {
         _isFire = false;
+        _rb = GetComponent<Rigidbody>();
     }
 
     void Start()
@@ -27,6 +30,7 @@ public class Player : MonoBehaviour
 
     void Update()
     {
+
         if (Input.GetMouseButtonDown(0))
             _isFire = true;
 
@@ -61,5 +65,10 @@ public class Player : MonoBehaviour
         bullet.GetComponent<Bullet>().Init(10f, 30f);
 
         _isFire = false;
+    }
+
+    public void Jump(int force)
+    {
+        _rb.AddForce(Vector3.up * force, ForceMode.Impulse);
     }
 }

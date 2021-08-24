@@ -11,12 +11,12 @@ public class BrigeTrigger : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
-            unityEvent.Invoke();
+            unityEvent?.Invoke();
     }
 
     private void OnTriggerExit(Collider other)
     {
         if (other.CompareTag("Player"))
-            unityEventExit.Invoke();
+            unityEventExit?.Invoke();
     }
 }
