@@ -8,19 +8,21 @@ public class Player : MonoBehaviour
     [SerializeField] GameObject _bulletPrefab;
     [SerializeField] Transform _spawnBullet;
     [SerializeField] Rigidbody _rb;
+    [SerializeField] Animator _anim;
 
     public float speed;
     public float speedRotate;
     public float jumpForce;
 
     private bool _isForse;
-    private bool _isFire;
+    private bool _isDie;
     private Vector3 _direction;
 
     private void Awake()
     {
-        _isFire = false;
+        _isDie = false;
         _rb = GetComponent<Rigidbody>();
+        _anim = GetComponent<Animator>();
     }
 
     void Start()
@@ -31,20 +33,28 @@ public class Player : MonoBehaviour
     void Update()
     {
 
-        if (Input.GetMouseButtonDown(0))
-            _isFire = true;
-
         _direction.x = Input.GetAxis("Horizontal");
         _direction.z = Input.GetAxis("Vertical");
 
         _isForse = Input.GetButton("Forse");
+
+        if (_direction == Vector3.zero)
+        {
+            _anim.SetBool("IsMove", false);
+
+            if (Input.GetMouseButtonDown(0))
+                _anim.SetTrigger("Shoot");
+        }
+        else
+            _anim.SetBool("IsMove", true);
+
+        if (Input.GetKeyDown(KeyCode.L))
+            _anim.SetTrigger("Die");
+
     }
 
     private void FixedUpdate()
     {
-        if (_isFire)
-            Fire();
-
         Move();
 
         transform.Rotate(0, Input.GetAxis("Mouse X") * Time.fixedDeltaTime * speedRotate, 0);
@@ -64,8 +74,13 @@ public class Player : MonoBehaviour
 
         bullet.GetComponent<Bullet>().Init(10f, 30f);
 
-        _isFire = false;
+        _isDie = false;
     }
+
+    private void Die()
+    {
+        _isDie = true;
+    }    
 
     public void Jump(int force)
     {

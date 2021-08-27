@@ -2,10 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[System.Serializable]
+public struct WayPoint
+{
+    public Transform[] _enemyWayPoint;
+}
+
 public class EnemySpawner : MonoBehaviour
 {
     [SerializeField] private GameObject _enemyPrefab;
     [SerializeField] private int _enemyCount;
+    [SerializeField] private WayPoint[] _enemyWayPoint;
 
     private List<Enemy> _enemyPool;
 

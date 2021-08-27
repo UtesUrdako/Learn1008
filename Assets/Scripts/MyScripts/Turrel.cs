@@ -28,7 +28,7 @@ public class Turrel : MonoBehaviour, ITakeDamage
 
         StartCoroutine(Reload(_timeReload));
     }
-
+    float needAngle = 0f;
     // Update is called once per frame
     void Update()
     {
@@ -37,7 +37,7 @@ public class Turrel : MonoBehaviour, ITakeDamage
         Vector3 stepDir = Vector3.RotateTowards(_head.forward, dir, _speed * Time.deltaTime, 0f);
         angle = Vector3.Angle(_head.forward, dir);
 
-        if (Physics.Raycast(_spawnBullet.position, _spawnBullet.forward, out RaycastHit hit, 20f, LayerMask.NameToLayer("UI"), QueryTriggerInteraction.Ignore))
+        if (Physics.Raycast(_spawnBullet.position + Vector3.up * 1.5f, _spawnBullet.forward, out RaycastHit hit, 20f, LayerMask.NameToLayer("UI"), QueryTriggerInteraction.Ignore))
         {
             Debug.DrawLine(_spawnBullet.position, hit.point, Color.green, Time.deltaTime);
             if (hit.collider.tag == "Player" && _isFire)
@@ -50,6 +50,12 @@ public class Turrel : MonoBehaviour, ITakeDamage
 
         _head.rotation = Quaternion.LookRotation(stepDir);
 
+        if (angle < 40f)
+        {
+            float step = Time.deltaTime * _speed;
+            _head.Rotate(Vector3.up * step);
+            angle += step;
+        }
         
     }
 
