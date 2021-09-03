@@ -9,6 +9,8 @@ public class Player : MonoBehaviour
     [SerializeField] Transform _spawnBullet;
     [SerializeField] Rigidbody _rb;
     [SerializeField] Animator _anim;
+    [SerializeField] AudioSource _audio;
+    [SerializeField] AudioClip[] _footsteps;
 
     public float speed;
     public float speedRotate;
@@ -23,6 +25,7 @@ public class Player : MonoBehaviour
         _isDie = false;
         _rb = GetComponent<Rigidbody>();
         _anim = GetComponent<Animator>();
+        _audio = GetComponent<AudioSource>();
     }
 
     void Start()
@@ -69,12 +72,19 @@ public class Player : MonoBehaviour
 
     private void Fire()
     {
+        _audio.Play();
 
         GameObject bullet = GameObject.Instantiate(_bulletPrefab, _spawnBullet.position, Quaternion.identity);
 
         bullet.GetComponent<Bullet>().Init(10f, 30f);
 
         _isDie = false;
+    }
+
+    private void Step()
+    {
+        int number = Random.Range(0, _footsteps.Length);
+        _audio.PlayOneShot(_footsteps[number]);
     }
 
     private void Die()

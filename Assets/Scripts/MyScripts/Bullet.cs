@@ -42,4 +42,6 @@ public class Bullet : MonoBehaviour
         if (obj != null)
             obj.Hit(_damage);
     }
+
+    
 }

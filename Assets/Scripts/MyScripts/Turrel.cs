@@ -5,8 +5,9 @@ using UnityEngine;
 public class Turrel : MonoBehaviour, ITakeDamage
 {
     private Transform _target;
-    [SerializeField] GameObject _bulletPrefab;
-    [SerializeField] Transform _spawnBullet;
+    [SerializeField] private GameObject _bulletPrefab;
+    [SerializeField] private Transform _spawnBullet;
+    [SerializeField] private ParticleSystem _particle;
 
     [SerializeField] private Transform _head;
     [SerializeField] private float _speed = 1f;
@@ -19,9 +20,16 @@ public class Turrel : MonoBehaviour, ITakeDamage
     public void Hit(float damage)
     {
         _hp -= damage / 2f;
+        _particle.Play();
         if (_hp <= 0)
             Destroy(gameObject);
     }
+
+    private void Awake()
+    {
+        _particle = GetComponentInChildren<ParticleSystem>();
+    }
+
     void Start()
     {
         _target = FindObjectOfType<Player>().transform;
